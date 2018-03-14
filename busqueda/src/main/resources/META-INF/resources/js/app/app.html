@@ -1,220 +1,137 @@
-<!-- <p-card >
+<p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)"
+    [paginator]="true" [rows]="10" #dt>
 
-    <p-header>
-        <h3>Criterios de Selección</h3>
-    </p-header>
-
-    <div class="ui-g">
-        
-        <div class="ui-g-12 ui-md-12">
-            <div class="ui-g-4">
-                Vin
-            </div>
-            <div class="ui-g-8" style="float:left">
-                <input pInputText type="text" />
-            </div>
+    <ng-template pTemplate="caption">
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         </div>
-    
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">
-                Fecha Matriculación Desde
-            </div>
-            <div class="ui-g-8">
-                <p-calendar [(ngModel)]="dateFrom"></p-calendar>
-            </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">
-                Hasta
-            </div>
-            <div class="ui-g-8">
-                <p-calendar [(ngModel)]="dateTo"></p-calendar>
-            </div>
-        </div>
-        
-
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">
-                Marca
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" [autoWidth]="false" placeholder="Todos" ></p-dropdown>
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">
-                Color
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="colors" [(ngModel)]="selectedColor" [autoWidth]="false" placeholder="Todos" ></p-dropdown>
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">
-                Estado
-            </div>
-            <div class="ui-g-8">
-                <div class="ui-g radiobuttons">
-                    <div class="ui-g-12"><p-radioButton name="group1" value="Alta" [(ngModel)]="val"></p-radioButton><label class="ui-widget">Alta</label></div>
-                    <div class="ui-g-12"><p-radioButton name="group1" value="Baja" [(ngModel)]="val"></p-radioButton><label class="ui-widget">Baja</label></div>                
-                </div>
-            </div>
-        </div>
-
-    </div>
-</p-card> -->
-
-<!-- <div class="ui-g">    
-    <div class="ui-g-12 ui-md-12">
-        <p-button (onClick)="search()" icon="fa fa-fw fa-check" label="Buscar"></p-button>
-        <p-button (onClick)="clean()" icon="fa fa-fw fa-close" label="Limpiar"></p-button>
-    </div>
-</div> -->
+    </ng-template>
 
 
-<p-card>
-    <p-header>
-        <h3>Listado Coches</h3>
-    </p-header>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
 
-    <p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" #dt>
-        
-        <ng-template pTemplate="caption">
-            <div class="ui-helper-clearfix">
-                <button type="button" pButton icon="fa-file-o" iconPos="left" label="Exportar" (click)="dt.exportCSV()" style="float:left"></button>
-                <!-- <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
-            </div>
-        </ng-template>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input *ngSwitchCase="'vin'" [(ngModel)]="vinFilter" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
 
-
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                    {{col.header}}
-                    <p-sortIcon [field]="col.field"></p-sortIcon>
-                </th>
-            </tr>
-
-            <tr>
-                <th *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <input *ngSwitchCase="'vin'" [(ngModel)]="vinFilter" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-                    
-                    <!-- calendar filter -->
-                    <div *ngSwitchCase="'regDate'">
-                        <div >
-                            <div class="ui-g-12">
-                                <label class="ui-widget">Desde</label>
-                                <p-calendar [(ngModel)]="dateFrom" dateFormat="dd/mm/yy" [style]="{'width':'50%'}" (onSelect)="filterDateFrom(dt)"></p-calendar>
-                            </div>
+                <!-- calendar filter -->
+                <div *ngSwitchCase="'regDate'">
+                    <div>
+                        <div class="ui-g-12">
+                            <label class="ui-widget">Desde</label>
+                            <p-calendar [(ngModel)]="dateFrom" dateFormat="dd/mm/yy" (onSelect)="filterDateFrom(dt)"></p-calendar>
                         </div>
-                        <div >                            
-                            <div class="ui-g-12">
-                                <label class="ui-widget">Hasta</label>
-                                <p-calendar [(ngModel)]="dateTo" [style]="{'width':'50%'}" (onSelect)="filterDateTo(dt)"></p-calendar>
-                            </div>
-                        </div>    
-
                     </div>
-                    <!-- end calendar filter -->
+                    <div>
+                        <div class="ui-g-12">
+                            <label class="ui-widget">Hasta</label>
+                            <p-calendar [(ngModel)]="dateTo" dateFormat="dd/mm/yy" (onSelect)="filterDateTo(dt)"></p-calendar>
+                        </div>
+                    </div>
 
-                    <p-dropdown *ngSwitchCase="'brand'" [options]="brands"  [(ngModel)]= "selectedBrand" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
-                    <p-multiSelect *ngSwitchCase="'color'" [options]="colors"  [(ngModel)]= "selectedColor" defaultLabel="All Colors" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
-                    
-                    <div *ngSwitchCase="'status'" class="ui-g radiobuttons">
-                        <!-- <div class="ui-g-12"><p-radioButton name="group1" value="alta" [(ngModel)]="valStatus" (onClick)="dt.filter($event.value, col.field, 'equals')"></p-radioButton><label class="ui-widget">Alta</label></div>
+                </div>
+                <!-- end calendar filter -->
+
+                <p-dropdown *ngSwitchCase="'brand'" [options]="brands" [(ngModel)]="selectedBrand" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
+                <p-multiSelect *ngSwitchCase="'color'" [options]="colors" [(ngModel)]="selectedColor" [style]="{'width':'100%'}" defaultLabel="All Colors"
+                    (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+
+                <div *ngSwitchCase="'status'" class="ui-g radiobuttons">
+                    <!-- <div class="ui-g-12"><p-radioButton name="group1" value="alta" [(ngModel)]="valStatus" (onClick)="dt.filter($event.value, col.field, 'equals')"></p-radioButton><label class="ui-widget">Alta</label></div>
                         <div class="ui-g-12"><p-radioButton name="group1" value="baja" [(ngModel)]="valStatus" (onClick)="dt.filter($event.value, col.field, 'equals')"></p-radioButton><label class="ui-widget">Baja</label></div>                 -->
-                        <div class="ui-g-12"><p-radioButton name="group1" value="alta" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton><label class="ui-widget">Alta</label></div>
-                        <div class="ui-g-12"><p-radioButton name="group1" value="baja" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton><label class="ui-widget">Baja</label></div>                
-                        
-
+                    <div class="ui-g-12">
+                        <p-radioButton name="group1" value="alta" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton>
+                        <label class="ui-widget">Alta</label>
+                        <p-radioButton name="group1" value="baja" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton>
+                        <label class="ui-widget">Baja</label>
                     </div>
 
-                </th>
-            </tr>
-        </ng-template>
 
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
-                <!-- <td *ngFor="let col of columns">
+                </div>
+
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <!-- <td *ngFor="let col of columns">
                     {{rowData[col.field]}}
                 </td> -->
-                <td *ngFor="let col of columns">
-                    <div *ngIf="col.field == 'regDate'; else elseBlock" >
-                        {{rowData[col.field] | date: 'dd/MM/yyyy' }}
-                    </div>
-                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
-                </td>
-                
-            </tr>
-        </ng-template>
-    
-        <ng-template pTemplate="summary" let-rowData>
-            <div style="text-align:left">
-                <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Añadir"></button>
-                <button type="button" pButton icon="fa-clean"  label="Limpiar" (click)="clean(dt)" style="float:right"></button>
-            </div>
-        </ng-template>
-        
-    </p-table>
-    
-    <p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="600">
-        <div class="ui-g ui-fluid" *ngIf="car">
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Vin</label>
+            <td *ngFor="let col of columns">
+                <div *ngIf="col.field == 'regDate'; else elseBlock">
+                    {{rowData[col.field] | date: 'dd/MM/yyyy' }}
                 </div>
-                <div class="ui-g-8">
-                    <input pInputText id="vin" [(ngModel)]="car.vin" />
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="regDate">Fecha Mat.</label>
-                </div>  
-                <div class="ui-g-8">
+                <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
+            </td>
 
-                    <!-- <input pInputText id="regDate" [(ngModel)]="car.regDate" /> -->
-                    <p-calendar [(ngModel)]="car.regDate"></p-calendar>
+        </tr>
+    </ng-template>
 
-                </div>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Añadir"></button>
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Exportar" (click)="dt.exportCSV()"></button>
+            <button type="button" pButton icon="fa-clean" label="Limpiar" (click)="clean(dt)" style="float:right"></button>
+        </div>
+    </ng-template>
+</p-table>
+<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="600">
+    <div class="ui-g ui-fluid" *ngIf="car">
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Vin</label>
             </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="brand">Marca</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="brand" [(ngModel)]="car.brand" />
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="color">Color</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="color" [(ngModel)]="car.color" />
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="status">Estado</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="status" [(ngModel)]="car.status" />
-                </div>
+            <div class="ui-g-8">
+                <input pInputText id="vin" [(ngModel)]="car.vin" />
             </div>
         </div>
-        <p-footer>
-            <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-                <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="regDate">Fecha Mat.</label>
             </div>
-        </p-footer>
-    </p-dialog>
-
+            <div class="ui-g-8">
+                <p-calendar [(ngModel)]="car.regDate"></p-calendar>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="brand">Marca</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="brand" [(ngModel)]="car.brand" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="color">Color</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="color" [(ngModel)]="car.color" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="status">Estado</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="status" [(ngModel)]="car.status" />
+            </div>
+        </div>
+    </div>
     <p-footer>
-    
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        </div>
     </p-footer>
-</p-card>
+</p-dialog>
 
+<p-footer></p-footer>
