@@ -1,0 +1,29 @@
+
+<div class="ui-dropdown">
+    <div class="ui-grid-col-2" style="height: 50px">
+        <p-dropdown [options]="languages" (onChange)="changeLanguage($event.value)" ></p-dropdown>
+    </div>
+</div>
+
+<p-card >
+    <!-- <div style="text-align: right">        
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50"  placeholder="Filter" [(ngModel)]="textFilter" (input)="tt.filterNodes($event.target.value, true)" style="width:auto">
+    </div> -->
+
+    <p-treeTable #tt [value]="files">
+        
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">        
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+        </ng-template>
+
+        <p-header>{{'treetitle' | translate }}  </p-header>
+            
+        <p-column field="name" header= "{{ 'name' | translate }}" ></p-column>
+        <p-column field="size" header= "{{ 'size' | translate }}" ></p-column>
+        <p-column field="type" header= "{{ 'type' | translate }}" ></p-column>
+    </p-treeTable>  
+</p-card>

@@ -1,0 +1,5 @@
+Bundle-Name: busqueda-arbol
+Bundle-SymbolicName: busqueda.arbol
+Bundle-Version: 1.0.0
+Export-Package: busqueda.arbol.constants
+Web-ContextPath: /busqueda-arbol

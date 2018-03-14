@@ -1,0 +1,5 @@
+Bundle-Name: actualizacion-datos
+Bundle-SymbolicName: actualizacion.datos
+Bundle-Version: 1.0.0
+Export-Package: actualizacion.datos.constants
+Web-ContextPath: /actualizacion-datos
