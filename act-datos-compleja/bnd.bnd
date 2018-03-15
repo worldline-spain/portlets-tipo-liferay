@@ -1,0 +1,5 @@
+Bundle-Name: act-datos-compleja
+Bundle-SymbolicName: act.datos.compleja
+Bundle-Version: 1.0.0
+Export-Package: act.datos.compleja.constants
+Web-ContextPath: /act-datos-compleja
