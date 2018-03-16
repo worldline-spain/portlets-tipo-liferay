@@ -21,7 +21,7 @@ export class AppComponent {
 		private translate: TranslateService,
 		private liferayService: LiferayService
 	) {
-		//this.initTranslate();  
+		this.initTranslate();  
 
 
 		this.listItems = [];
