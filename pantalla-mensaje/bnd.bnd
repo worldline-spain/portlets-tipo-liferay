@@ -1,0 +1,5 @@
+Bundle-Name: pantalla-mensaje
+Bundle-SymbolicName: pantalla.mensaje
+Bundle-Version: 1.0.0
+Export-Package: pantalla.mensaje.constants
+Web-ContextPath: /pantalla-mensaje
