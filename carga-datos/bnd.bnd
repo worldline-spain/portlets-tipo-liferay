@@ -1,0 +1,5 @@
+Bundle-Name: carga-datos
+Bundle-SymbolicName: carga.datos
+Bundle-Version: 1.0.0
+Export-Package: carga.datos.constants
+Web-ContextPath: /carga-datos
