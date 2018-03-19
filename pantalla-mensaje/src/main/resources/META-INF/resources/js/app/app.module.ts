@@ -3,13 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { /* PRIME NG MODULES*/ } from 'primeng-wl/primeng';
-import { BrowserAnimationsModule, TranslateModule, TranslateLoader, TranslateHttpLoader  } from '../../libs/libs';
 
-import * as Quill from 'quill';
-import 'chart.js/dist/Chart.min';
+/* Shared Modules */
+import { SharedModule, BrowserAnimationsModule, TranslateHttpLoader, TranslateModule, TranslateLoader } from '../services/shared.module';
+
+
+//import * as Quill from 'quill';
+//import 'chart.js/dist/Chart.min';
 import { AppComponent } from './app.component';
 
-window['Quill'] = Quill;
+//window['Quill'] = Quill;
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -23,6 +26,7 @@ export function HttpLoaderFactory(http: Http) {
 		BrowserAnimationsModule,
 		FormsModule,
 		HttpModule,
+		SharedModule.forRoot(),
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
