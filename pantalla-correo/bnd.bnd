@@ -1,0 +1,5 @@
+Bundle-Name: pantalla-correo
+Bundle-SymbolicName: pantalla.correo
+Bundle-Version: 1.0.0
+Export-Package: pantalla.correo.constants
+Web-ContextPath: /pantalla-correo
