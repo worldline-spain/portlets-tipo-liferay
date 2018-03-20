@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define(["require", "exports", "@angular/core", "../../libs/libs"], function (require, exports, core_1, libs_1) {
+define(["require", "exports", "@angular/core", "../services/shared.module"], function (require, exports, core_1, shared_module_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var AppComponent = (function () {
@@ -121,7 +121,7 @@ define(["require", "exports", "@angular/core", "../../libs/libs"], function (req
             selector: 'app',
             templateUrl: '/o/busqueda-arbol/js/app/app.html'
         }),
-        __metadata("design:paramtypes", [libs_1.TranslateService])
+        __metadata("design:paramtypes", [shared_module_1.TranslateService])
     ], AppComponent);
     exports.AppComponent = AppComponent;
 });

@@ -1,33 +1,32 @@
-import { NgModule } from '@angular/core'; 
+/* CORE */
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
-//import { TreeTableModule } from 'primeng-wl/primeng';
-//import {ButtonModule} from 'primeng-wl/button';
-//import {CardModule} from 'primeng-wl/card';
+
+/* Shared Modules */
+import { SharedModule, BrowserAnimationsModule, TranslateHttpLoader, TranslateModule, TranslateLoader } from '../services/shared.module';
+
+/* Prime NG dependencies */
 import { TreeTableModule,DropdownModule,ButtonModule,CardModule } from 'primeng-wl/primeng';
-import { BrowserAnimationsModule, TranslateModule, TranslateLoader, TranslateHttpLoader  } from '../../libs/libs';
 
-import * as Quill from 'quill';
-import 'chart.js/dist/Chart.min';
+/* Main component */
 import { AppComponent } from './app.component';
-
-
-window['Quill'] = Quill;
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
-export function HttpLoaderFactory(http: Http) {
+function HttpLoaderFactory(http: Http) {
 	return new TranslateHttpLoader(http, './o/busqueda-arbol/js/assets/i18n/locale-', '.json');
 }
 
 @NgModule({
 	imports: [
 		BrowserModule,
-		BrowserAnimationsModule,
 		FormsModule,
 		HttpModule,
-		ButtonModule,
+		SharedModule.forRoot(),
+    BrowserAnimationsModule,
+    ButtonModule,
 		TreeTableModule,
 		CardModule,
 		DropdownModule,
@@ -37,7 +36,7 @@ export function HttpLoaderFactory(http: Http) {
 				useFactory: HttpLoaderFactory,
 				deps: [Http]
 			}
-		})
+		}),
 	],
 	declarations: [AppComponent],
 	entryComponents: [AppComponent],
