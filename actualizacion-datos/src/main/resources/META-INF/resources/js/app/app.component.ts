@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '../../libs/libs';
+import { TranslateService, LiferayService } from '../services/shared.module';
 import {Validators,FormControl,FormGroup,FormBuilder} from '@angular/forms';
 import {Message,SelectItem} from 'primeng-wl/api';
 
@@ -7,6 +7,7 @@ import {Message,SelectItem} from 'primeng-wl/api';
 	selector: 'app',
 	templateUrl: '/o/actualizacion-datos/js/app/app.html'
 })
+
 export class AppComponent {
 
 	
@@ -24,6 +25,7 @@ export class AppComponent {
 
 	constructor(
 		private translate: TranslateService,
+		private liferayService: LiferayService,
 		private fb: FormBuilder
 	) {
 		
@@ -46,8 +48,8 @@ export class AppComponent {
 		this.genders.push({label:'Female', value:'Female'});
 		
 		this.languages = [];
-		this.languages.push({label:'Spanish',value:'es'});
-		this.languages.push({label:'English',value:'en'});
+		this.languages.push({label:'Spanish',value:'es_ES'});
+		this.languages.push({label:'English',value:'en_US'});
 		
     }
 
@@ -61,13 +63,10 @@ export class AppComponent {
 	
 	initTranslate() {
 		// Set the default language for translation strings, and the current language.
-		this.translate.setDefaultLang('es');
+		this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
 
-		if (this.translate.getBrowserLang() !== undefined) {
-			this.translate.use(this.translate.getBrowserLang());
-		} else {
-			this.translate.use('es'); // Set your language here
-		}
+		// Set your language here
+		this.translate.use(this.liferayService.getLanguageLiferay());
 	}
 
 	changeLanguage(language: string) {
