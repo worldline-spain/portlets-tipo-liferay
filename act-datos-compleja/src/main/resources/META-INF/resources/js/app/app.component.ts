@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '../../libs/libs';
+import { TranslateService, LiferayService } from '../services/shared.module';
 import {Validators,FormControl,FormGroup,FormBuilder} from '@angular/forms';
 import {Message,SelectItem} from 'primeng-wl/api';
 
-// Declare Liferay 
-declare const Liferay: any;
 
 @Component({
 	selector: 'app',
@@ -25,11 +23,10 @@ export class AppComponent {
 
 	constructor(
 		private translate: TranslateService,
+		private liferayService: LiferayService,
 		private fb: FormBuilder
 	) {	
-		//test 		
-		console.log(Liferay.ThemeDisplay.getLanguageId());
-
+		
 		this.initTranslate();
 
 	}
@@ -60,25 +57,15 @@ export class AppComponent {
     }
 
 
-	// resetForm(){
-	// 	console.log("reset form");
-	// }
 
 	get diagnostic() { return JSON.stringify(this.userform.value); }
 		
-	// changeLanguage(language: string) {
-	// 	this.translate.use(language);
-	//   }
 
 	initTranslate() {
 		// Set the default language for translation strings, and the current language.
-		//this.translate.setDefaultLang('es');
-		this.translate.setDefaultLang(Liferay.ThemeDisplay.getLanguageId());
+		this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
 
-		if (Liferay.ThemeDisplay.getLanguageId() !== undefined) {
-			this.translate.use(Liferay.ThemeDisplay.getLanguageId());
-		} else {
-			this.translate.use('es_ES'); // Set your language here
-		}
+		// Set your language here
+		this.translate.use(this.liferayService.getLanguageLiferay());
 	}
 }
