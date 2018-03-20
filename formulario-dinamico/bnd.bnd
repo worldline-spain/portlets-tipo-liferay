@@ -1,0 +1,5 @@
+Bundle-Name: formulario-dinamico
+Bundle-SymbolicName: formulario.dinamico
+Bundle-Version: 1.0.0
+Export-Package: formulario.dinamico.constants
+Web-ContextPath: /formulario-dinamico
