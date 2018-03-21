@@ -1,23 +1,37 @@
+/* CORE */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '../../libs/animations/src/animations';
-import 'chart.js/dist/Chart.min'
+import { HttpModule, Http } from '@angular/http';
 
+/* Shared Modules */
+import { SharedModule, BrowserAnimationsModule, TranslateHttpLoader, TranslateModule, TranslateLoader } from '../services/shared.module';
 
-import { InputTextModule, ButtonModule, RadioButtonModule,ChartModule, DropdownModule, CalendarModule, 
-	CardModule, DialogModule} from 'primeng-wl/primeng';
+/* Prime NG dependencies */
+import { InputTextModule, ButtonModule, RadioButtonModule,ChartModule, DropdownModule, CalendarModule,
+	CardModule, DialogModule } from 'primeng-wl/primeng';
 
 import { TableModule } from 'primeng-wl/table';
-import { MultiSelectModule } from 'primeng-wl/multiselect';  
+import { MultiSelectModule } from 'primeng-wl/multiselect';
 import {InputMaskModule} from 'primeng-wl/inputmask';
+
+/* Main component */
+import { AppComponent } from './app.component';
+
+// The translate loader needs to know where to load i18n files
+// in Ionic's static asset pipeline.
+function HttpLoaderFactory(http: Http) {
+	return new TranslateHttpLoader(http, './o/busqueda/js/assets/i18n/locale-', '.json');
+}
 
 @NgModule({
 	imports: [
 		BrowserModule,
-		BrowserAnimationsModule,
-		InputTextModule,
+		FormsModule,
+		HttpModule,
+		SharedModule.forRoot(),
+    BrowserAnimationsModule,
+    InputTextModule,
 		ButtonModule,
 		RadioButtonModule,
 		FormsModule,
@@ -28,8 +42,14 @@ import {InputMaskModule} from 'primeng-wl/inputmask';
 		TableModule,
 		DialogModule,
 		MultiSelectModule,
-		InputMaskModule
-
+		InputMaskModule,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: HttpLoaderFactory,
+				deps: [Http]
+			}
+		}),
 	],
 	declarations: [AppComponent],
 	entryComponents: [AppComponent],

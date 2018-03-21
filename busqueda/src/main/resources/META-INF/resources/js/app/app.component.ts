@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataTable } from 'primeng-wl/primeng';
-
+import { TranslateService, LiferayService } from '../services/shared.module';
 
 @Component({
 	selector: 'app',
@@ -8,15 +8,12 @@ import { DataTable } from 'primeng-wl/primeng';
 })
 export class AppComponent {
 
-	
+
 	dateFrom: Date;
 	dateTo: Date;
-	
+
 	valStatus: string;
 	vinFilter:string;
-
-	// people: Person[];
-	// selectedPerson: Person;
 
 	colors: ValuesDropdown[];
 	selectedColor: ValuesDropdown;
@@ -37,25 +34,34 @@ export class AppComponent {
     cols: any[];
 
 
-	constructor() { 	}
+    constructor(
+      private translate: TranslateService,
+      private liferayService: LiferayService
+    ) {
+
+        this.initTranslate();
+
+        this.cols = [
+                { field: 'vin', header:'vin' },
+                { field: 'regDate', header: 'regDate' },
+                { field: 'brand', header: 'brand' },
+                { field: 'color', header: 'color' },
+                { field: 'status', header: 'status' },
+            ];
+
+    	}
 
 	ngOnInit() {
-        // this.people  = [ 
-		// 	{"label": "Person1", "value": "1"}, 
-		// 	{"label": "Person2", "value": "2"}, 
-		// 	{"label": "Person3", "value": "3"}
-			
-		// ];
 
-		this.colors = [ 
-				{label: "Todos", value: null}, 
-				{label: "Blanco", value: "Blanco"}, 
-				{label: "Negro", value: "Negro"}, 
+		this.colors = [
+				{label: "Todos", value: null},
+				{label: "Blanco", value: "Blanco"},
+				{label: "Negro", value: "Negro"},
 				{label: "Rojo", value: "Rojo"},
 				{label: "Azul", value: "Azul"},
 				{label: "Gris", value: "Gris"},
 				{label: "Amarillo", value: "Amarillo"},
-				{label: "Plata", value: "Plata"}				
+				{label: "Plata", value: "Plata"}
 			];
 
 			this.brands = [
@@ -169,36 +175,10 @@ export class AppComponent {
 				"price":215000
 			}
 		];
-		// 	{"vin":"6e0da3ab","status":"alta","brand":"Volvo","regDate":"01/01/1987","color":"Amarillo","price":32000},
-		// 	{"vin":"5aee636b","status":"alta","brand":"Jaguar","regDate":"01/01/1995","color":"Rojo","price":20000},
-		// 	{"vin":"7cc43997","status":"alta","brand":"Jaguar","regDate":"01/01/1984","color":"Negro","price":14000},
-		// 	{"vin":"88ec9f66","status":"baja","brand":"Honda","regDate":"01/01/1989","color":"Blanco","price":36000},
-		// 	{"vin":"f5a4a5f5","status":"alta","brand":"BMW","regDate":"01/01/1986","color":"Azul","price":28000},
-		// 	{"vin":"15b9a5c9","status":"alta","brand":"Mercedes","regDate":"01/01/1986","color":"Negro","price":14000},
-		// 	{"vin":"f7e18d01","status":"alta","brand":"Mercedes","regDate":"01/01/1991","color":"Blanco","price":25000},
-		// 	{"vin":"cec593d7","status":"alta","brand":"VW","regDate":"01/01/1992","color":"Negro","price":36000},
-		// 	{"vin":"d5bac4f0","status":"baja","brand":"Renault","regDate":"01/01/2001","color":"Azul","price":25000},
-		// 	{"vin":"56b527c8","status":"alta","brand":"Jaguar","regDate":"01/01/1990","color":"Amarillo","price":52000},
-		// 	{"vin":"1ac011ff","status":"alta","brand":"Audi","regDate":"01/01/1966","color":"Negro","price":45000},
-		// 	{"vin":"fc074185","status":"alta","brand":"BMW","regDate":"01/01/1962","color":"Rojo","price":54000},
-		// 	{"vin":"606ba663","status":"alta","brand":"Honda","regDate":"01/01/1982","color":"Negro","price":22000},
-		// 	{"vin":"d05060b8","status":"alta","brand":"Mercedes","regDate":"01/01/2003","color":"Azul","price":15000},
-		// 	{"vin":"46e4bbe8","status":"alta","brand":"Mercedes","regDate":"01/01/1986","color":"Rojo","price":18000},
-		// 	{"vin":"c29da0d7","status":"alta","brand":"BMW","regDate":"01/01/1983","color":"Blanco","price":32000},
-		// 	{"vin":"24622f70","status":"alta","brand":"VW","regDate":"01/01/1973","color":"Negro","price":36000},
-		// 	{"vin":"7f573d2c","status":"alta","brand":"Mercedes","regDate":"01/01/1991","color":"Negro","price":21000},
-		// 	{"vin":"b69e6f5c","status":"alta","brand":"Jaguar","regDate":"01/01/1993","color":"Azul","price":16000}
-		// ];
 
-        this.cols = [
-            { field: 'vin', header: 'Vin' },
-            { field: 'regDate', header: 'Fecha Matrícula' },
-            { field: 'brand', header: 'Marca' },
-			{ field: 'color', header: 'Color' },
-			{ field: 'status', header: 'Estado' },
-        ];
+
 	}
-	
+
 	showDialogToAdd() {
         this.newCar = true;
         this.car = {};
@@ -237,13 +217,13 @@ export class AppComponent {
         }
         return car;
 	}
-	
+
 	filterRadioButton(dt:DataTable) {
-					
+
 		dt.filter(this.valStatus, 'status','equals');
-        
+
     }
-	
+
 	filterDateFrom(dt:DataTable){
 		console.log(this.dateFrom );
 		dt.filter(this.dateFrom, 'regDate', 'gt');
@@ -254,7 +234,7 @@ export class AppComponent {
 	}
 
 	clean(dt:DataTable){
-		
+
 		this.vinFilter = null;
 		this.valStatus = null;
 		this.dateFrom = null;
@@ -263,18 +243,16 @@ export class AppComponent {
 		this.selectedColor = null;
 
 		dt.reset()
+  }
+
+  initTranslate() {
+		// Set the default language for translation strings, and the current language.
+		this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
+
+		// Set your language here
+		this.translate.use(this.liferayService.getLanguageLiferay());
 	}
-	// search()
-	// {
-	// 	// método para filtrar el array de datos...
 
-	// }
-
-	// clean()
-	// {
-
-	// }
-	
 }
 
 

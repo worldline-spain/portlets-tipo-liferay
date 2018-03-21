@@ -4,9 +4,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "./app.component", "../../libs/animations/src/animations", "primeng-wl/primeng", "primeng-wl/table", "primeng-wl/multiselect", "primeng-wl/inputmask", "chart.js/dist/Chart.min"], function (require, exports, core_1, platform_browser_1, forms_1, app_component_1, animations_1, primeng_1, table_1, multiselect_1, inputmask_1) {
+define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "../services/shared.module", "primeng-wl/primeng", "primeng-wl/table", "primeng-wl/multiselect", "primeng-wl/inputmask", "./app.component"], function (require, exports, core_1, platform_browser_1, forms_1, http_1, shared_module_1, primeng_1, table_1, multiselect_1, inputmask_1, app_component_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // The translate loader needs to know where to load i18n files
+    // in Ionic's static asset pipeline.
+    function HttpLoaderFactory(http) {
+        return new shared_module_1.TranslateHttpLoader(http, './o/busqueda/js/assets/i18n/locale-', '.json');
+    }
     var AppModule = (function () {
         function AppModule() {
         }
@@ -20,7 +25,10 @@ define(["require", "exports", "@angular/core", "@angular/platform-browser", "@an
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                animations_1.BrowserAnimationsModule,
+                forms_1.FormsModule,
+                http_1.HttpModule,
+                shared_module_1.SharedModule.forRoot(),
+                shared_module_1.BrowserAnimationsModule,
                 primeng_1.InputTextModule,
                 primeng_1.ButtonModule,
                 primeng_1.RadioButtonModule,
@@ -32,7 +40,14 @@ define(["require", "exports", "@angular/core", "@angular/platform-browser", "@an
                 table_1.TableModule,
                 primeng_1.DialogModule,
                 multiselect_1.MultiSelectModule,
-                inputmask_1.InputMaskModule
+                inputmask_1.InputMaskModule,
+                shared_module_1.TranslateModule.forRoot({
+                    loader: {
+                        provide: shared_module_1.TranslateLoader,
+                        useFactory: HttpLoaderFactory,
+                        deps: [http_1.Http]
+                    }
+                }),
             ],
             declarations: [app_component_1.AppComponent],
             entryComponents: [app_component_1.AppComponent],

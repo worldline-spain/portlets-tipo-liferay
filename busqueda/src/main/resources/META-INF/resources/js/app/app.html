@@ -2,9 +2,9 @@
     [paginator]="true" [rows]="10" #dt>
 
     <ng-template pTemplate="caption">
-        <div style="text-align: right">        
+        <div style="text-align: right">
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            <input type="text" pInputText size="50" placeholder="{{ 'globalFilter' | translate }}" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         </div>
     </ng-template>
 
@@ -12,7 +12,7 @@
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                {{col.header | translate}}
                 <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
         </tr>
@@ -25,13 +25,13 @@
                 <div *ngSwitchCase="'regDate'">
                     <div>
                         <div class="ui-g-12">
-                            <label class="ui-widget">Desde</label>
+                            <label class="ui-widget">{{ 'from' | translate }}</label>
                             <p-calendar [(ngModel)]="dateFrom" dateFormat="dd/mm/yy" (onSelect)="filterDateFrom(dt)"></p-calendar>
                         </div>
                     </div>
                     <div>
                         <div class="ui-g-12">
-                            <label class="ui-widget">Hasta</label>
+                            <label class="ui-widget">{{ 'to' | translate }}</label>
                             <p-calendar [(ngModel)]="dateTo" dateFormat="dd/mm/yy" (onSelect)="filterDateTo(dt)"></p-calendar>
                         </div>
                     </div>
@@ -48,9 +48,9 @@
                         <div class="ui-g-12"><p-radioButton name="group1" value="baja" [(ngModel)]="valStatus" (onClick)="dt.filter($event.value, col.field, 'equals')"></p-radioButton><label class="ui-widget">Baja</label></div>                 -->
                     <div class="ui-g-12">
                         <p-radioButton name="group1" value="alta" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton>
-                        <label class="ui-widget">Alta</label>
+                        <label class="ui-widget">{{ 'new' | translate }}</label>
                         <p-radioButton name="group1" value="baja" [(ngModel)]="valStatus" (ngModelChange)="filterRadioButton(dt)"></p-radioButton>
-                        <label class="ui-widget">Baja</label>
+                        <label class="ui-widget">{{ 'old' | translate }}</label>
                     </div>
 
 
@@ -77,17 +77,17 @@
 
     <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:left">
-            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Añadir"></button>
-            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Exportar" (click)="dt.exportCSV()"></button>
-            <button type="button" pButton icon="fa-clean" label="Limpiar" (click)="clean(dt)" style="float:right"></button>
+            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="{{ 'add' | translate }}"></button>
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="{{ 'export' | translate }}" (click)="dt.exportCSV()"></button>
+            <button type="button" pButton icon="fa-refresh" label="{{ 'clean' | translate }}" (click)="clean(dt)" style="float:right"></button>
         </div>
     </ng-template>
 </p-table>
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="600">
+<p-dialog header="{{ 'carDetails' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="600">
     <div class="ui-g ui-fluid" *ngIf="car">
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="vin">Vin</label>
+                <label for="vin">{{ 'vin' | translate }}</label>
             </div>
             <div class="ui-g-8">
                 <input pInputText id="vin" [(ngModel)]="car.vin" />
@@ -95,7 +95,7 @@
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="regDate">Fecha Mat.</label>
+                <label for="regDate">{{ 'regDate' | translate }}</label>
             </div>
             <div class="ui-g-8">
                 <p-calendar [(ngModel)]="car.regDate"></p-calendar>
@@ -103,7 +103,7 @@
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="brand">Marca</label>
+                <label for="brand">{{ 'brand' | translate }}</label>
             </div>
             <div class="ui-g-8">
                 <input pInputText id="brand" [(ngModel)]="car.brand" />
@@ -111,7 +111,7 @@
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="color">Color</label>
+                <label for="color">{{ 'color' | translate }}</label>
             </div>
             <div class="ui-g-8">
                 <input pInputText id="color" [(ngModel)]="car.color" />
@@ -119,7 +119,7 @@
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="status">Estado</label>
+                <label for="status">{{ 'status' | translate }}</label>
             </div>
             <div class="ui-g-8">
                 <input pInputText id="status" [(ngModel)]="car.status" />
@@ -128,8 +128,8 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button type="button" pButton icon="fa-close" (click)="delete()" label="{{ 'delete' | translate }}"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="{{ 'save' | translate }}"></button>
         </div>
     </p-footer>
 </p-dialog>

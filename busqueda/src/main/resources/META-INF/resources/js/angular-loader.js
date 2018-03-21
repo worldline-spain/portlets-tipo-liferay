@@ -1,4 +1,4 @@
-define(["require", "exports", "reflect-metadata", "zone.js"], function (require, exports) {
+define(["require", "exports", "./polyfills"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // Launch application
