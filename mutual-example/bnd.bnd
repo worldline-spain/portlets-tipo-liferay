@@ -1,0 +1,5 @@
+Bundle-Name: mutual-example
+Bundle-SymbolicName: mutual.example
+Bundle-Version: 1.0.0
+Export-Package: mutual.example.constants
+Web-ContextPath: /mutual-example
