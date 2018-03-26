@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "../services/shared.module", "./app.component"], function (require, exports, core_1, platform_browser_1, forms_1, http_1, shared_module_1, app_component_1) {
+define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "../services/shared.module", "primeng-wl/primeng", "./app.component"], function (require, exports, core_1, platform_browser_1, forms_1, http_1, shared_module_1, primeng_1, app_component_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // The translate loader needs to know where to load i18n files
@@ -27,6 +27,14 @@ define(["require", "exports", "@angular/core", "@angular/platform-browser", "@an
                 platform_browser_1.BrowserModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
+                forms_1.ReactiveFormsModule,
+                primeng_1.GrowlModule,
+                primeng_1.PanelModule,
+                primeng_1.DropdownModule,
+                primeng_1.InputTextModule,
+                primeng_1.InputTextareaModule,
+                primeng_1.ButtonModule,
+                primeng_1.CardModule,
                 shared_module_1.SharedModule.forRoot(),
                 shared_module_1.BrowserAnimationsModule,
                 shared_module_1.TranslateModule.forRoot({

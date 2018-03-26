@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define(["require", "exports", "@angular/core", "../services/shared.module"], function (require, exports, core_1, shared_module_1) {
+define(["require", "exports", "@angular/core", "../services/shared.module", "moment"], function (require, exports, core_1, shared_module_1, moment) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var AppComponent = (function () {
@@ -144,6 +144,7 @@ define(["require", "exports", "@angular/core", "../services/shared.module"], fun
                     "price": 215000
                 }
             ];
+            this.tableFiltered = Object.assign([], this.cars);
         };
         AppComponent.prototype.showDialogToAdd = function () {
             this.newCar = true;
@@ -151,18 +152,18 @@ define(["require", "exports", "@angular/core", "../services/shared.module"], fun
             this.displayDialog = true;
         };
         AppComponent.prototype.save = function () {
-            var cars = this.cars.slice();
+            var cars = this.tableFiltered.slice();
             if (this.newCar)
                 cars.push(this.car);
             else
-                cars[this.cars.indexOf(this.selectedCar)] = this.car;
-            this.cars = cars;
+                cars[this.tableFiltered.indexOf(this.selectedCar)] = this.car;
+            this.tableFiltered = cars;
             this.car = null;
             this.displayDialog = false;
         };
         AppComponent.prototype.delete = function () {
-            var index = this.cars.indexOf(this.selectedCar);
-            this.cars = this.cars.filter(function (val, i) { return i != index; });
+            var index = this.tableFiltered.indexOf(this.selectedCar);
+            this.tableFiltered = this.tableFiltered.filter(function (val, i) { return i != index; });
             this.car = null;
             this.displayDialog = false;
         };
@@ -181,12 +182,28 @@ define(["require", "exports", "@angular/core", "../services/shared.module"], fun
         AppComponent.prototype.filterRadioButton = function (dt) {
             dt.filter(this.valStatus, 'status', 'equals');
         };
-        AppComponent.prototype.filterDateFrom = function (dt) {
-            console.log(this.dateFrom);
-            dt.filter(this.dateFrom, 'regDate', 'gt');
-        };
-        AppComponent.prototype.filterDateTo = function (dt) {
-            dt.filter(this.dateTo, 'regDate', 'lt');
+        AppComponent.prototype.filterDate = function (dt) {
+            var _this = this;
+            this.tableFiltered = Object.assign([], this.cars);
+            if (this.dateFrom && !this.dateTo) {
+                this.tableFiltered = this.tableFiltered.filter(function (row) {
+                    return moment(row.regDate).isAfter(moment(_this.dateFrom)) ||
+                        moment(row.regDate).isSame(moment(_this.dateFrom));
+                });
+            }
+            if (this.dateTo && !this.dateFrom) {
+                this.tableFiltered = this.tableFiltered.filter(function (row) {
+                    return moment(row.regDate).isBefore(moment(_this.dateTo)) ||
+                        moment(row.regDate).isSame(moment(_this.dateTo));
+                });
+            }
+            if (this.dateFrom && this.dateTo) {
+                this.tableFiltered = this.tableFiltered.filter(function (row) {
+                    return moment(row.regDate).isBetween(moment(_this.dateFrom), moment(_this.dateTo)) ||
+                        moment(row.regDate).isSame(moment(_this.dateFrom)) ||
+                        moment(row.regDate).isSame(moment(_this.dateTo));
+                });
+            }
         };
         AppComponent.prototype.clean = function (dt) {
             this.vinFilter = null;
@@ -195,6 +212,7 @@ define(["require", "exports", "@angular/core", "../services/shared.module"], fun
             this.dateTo = null;
             this.selectedBrand = null;
             this.selectedColor = null;
+            this.tableFiltered = Object.assign([], this.cars);
             dt.reset();
         };
         AppComponent.prototype.initTranslate = function () {

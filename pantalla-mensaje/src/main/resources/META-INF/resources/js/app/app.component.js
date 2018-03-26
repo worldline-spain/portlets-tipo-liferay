@@ -7,25 +7,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define(["require", "exports", "@angular/core", "../../libs/libs"], function (require, exports, core_1, libs_1) {
+define(["require", "exports", "@angular/core", "../services/shared.module"], function (require, exports, core_1, shared_module_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // Declare Liferay 
+    //declare const Liferay: any;
     var AppComponent = (function () {
-        function AppComponent(translate) {
+        function AppComponent(translate, liferayService) {
             this.translate = translate;
+            this.liferayService = liferayService;
             this.caption = 'Hello world!';
             this.initTranslate();
         }
         AppComponent.prototype.initTranslate = function () {
             // Set the default language for translation strings, and the current language.
-            //this.translate.setDefaultLang('es');
-            this.translate.setDefaultLang(Liferay.ThemeDisplay.getLanguageId());
-            if (Liferay.ThemeDisplay.getLanguageId() !== undefined) {
-                this.translate.use(Liferay.ThemeDisplay.getLanguageId());
-            }
-            else {
-                this.translate.use('es_ES'); // Set your language here
-            }
+            this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
+            // Set your language here
+            this.translate.use(this.liferayService.getLanguageLiferay());
         };
         return AppComponent;
     }());
@@ -34,7 +32,8 @@ define(["require", "exports", "@angular/core", "../../libs/libs"], function (req
             selector: 'app',
             templateUrl: '/o/pantalla-mensaje/js/app/app.html'
         }),
-        __metadata("design:paramtypes", [libs_1.TranslateService])
+        __metadata("design:paramtypes", [shared_module_1.TranslateService,
+            shared_module_1.LiferayService])
     ], AppComponent);
     exports.AppComponent = AppComponent;
 });

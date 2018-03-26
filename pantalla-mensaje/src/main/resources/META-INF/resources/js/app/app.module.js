@@ -4,14 +4,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "../../libs/libs", "quill", "./app.component", "chart.js/dist/Chart.min"], function (require, exports, core_1, platform_browser_1, forms_1, http_1, libs_1, Quill, app_component_1) {
+define(["require", "exports", "@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "../services/shared.module", "./app.component"], function (require, exports, core_1, platform_browser_1, forms_1, http_1, shared_module_1, app_component_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    window['Quill'] = Quill;
+    //window['Quill'] = Quill;
     // The translate loader needs to know where to load i18n files
     // in Ionic's static asset pipeline.
     function HttpLoaderFactory(http) {
-        return new libs_1.TranslateHttpLoader(http, './o/pantalla-mensaje/js/assets/i18n/locale-', '.json');
+        return new shared_module_1.TranslateHttpLoader(http, './o/pantalla-mensaje/js/assets/i18n/locale-', '.json');
     }
     exports.HttpLoaderFactory = HttpLoaderFactory;
     var AppModule = (function () {
@@ -27,12 +27,13 @@ define(["require", "exports", "@angular/core", "@angular/platform-browser", "@an
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                libs_1.BrowserAnimationsModule,
+                shared_module_1.BrowserAnimationsModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                libs_1.TranslateModule.forRoot({
+                shared_module_1.SharedModule.forRoot(),
+                shared_module_1.TranslateModule.forRoot({
                     loader: {
-                        provide: libs_1.TranslateLoader,
+                        provide: shared_module_1.TranslateLoader,
                         useFactory: HttpLoaderFactory,
                         deps: [http_1.Http]
                     }

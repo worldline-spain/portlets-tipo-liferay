@@ -1,4 +1,4 @@
-<p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)"
+<p-table [columns]="cols" [value]="tableFiltered" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)"
     [paginator]="true" [rows]="10" #dt>
 
     <ng-template pTemplate="caption">
@@ -26,13 +26,13 @@
                     <div>
                         <div class="ui-g-12">
                             <label class="ui-widget">{{ 'from' | translate }}</label>
-                            <p-calendar [(ngModel)]="dateFrom" dateFormat="dd/mm/yy" (onSelect)="filterDateFrom(dt)"></p-calendar>
+                            <p-calendar [(ngModel)]="dateFrom" dateFormat="dd/mm/yy" (onSelect)="filterDate(dt)"></p-calendar>
                         </div>
                     </div>
                     <div>
                         <div class="ui-g-12">
                             <label class="ui-widget">{{ 'to' | translate }}</label>
-                            <p-calendar [(ngModel)]="dateTo" dateFormat="dd/mm/yy" (onSelect)="filterDateTo(dt)"></p-calendar>
+                            <p-calendar [(ngModel)]="dateTo" dateFormat="dd/mm/yy" (onSelect)="filterDate(dt)"></p-calendar>
                         </div>
                     </div>
 

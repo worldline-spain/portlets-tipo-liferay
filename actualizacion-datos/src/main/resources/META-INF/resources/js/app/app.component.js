@@ -16,6 +16,10 @@ define(["require", "exports", "@angular/core", "../services/shared.module", "@an
             this.liferayService = liferayService;
             this.fb = fb;
             this.msgs = [];
+            this.languages = [];
+            this.languages.push({ label: 'Spanish', value: 'es_ES' });
+            this.languages.push({ label: 'English', value: 'en_US' });
+            this.currentLanguage = this.languages[0].value;
             this.initTranslate();
         }
         AppComponent.prototype.ngOnInit = function () {
@@ -30,9 +34,6 @@ define(["require", "exports", "@angular/core", "../services/shared.module", "@an
             this.genders.push({ label: 'Select Gender', value: '' });
             this.genders.push({ label: 'Male', value: 'Male' });
             this.genders.push({ label: 'Female', value: 'Female' });
-            this.languages = [];
-            this.languages.push({ label: 'Spanish', value: 'es_ES' });
-            this.languages.push({ label: 'English', value: 'en_US' });
         };
         AppComponent.prototype.onSubmit = function (value) {
             this.submitted = true;
@@ -46,9 +47,9 @@ define(["require", "exports", "@angular/core", "../services/shared.module", "@an
         });
         AppComponent.prototype.initTranslate = function () {
             // Set the default language for translation strings, and the current language.
-            this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
+            this.translate.setDefaultLang(this.currentLanguage);
             // Set your language here
-            this.translate.use(this.liferayService.getLanguageLiferay());
+            this.translate.use(this.currentLanguage);
         };
         AppComponent.prototype.changeLanguage = function (language) {
             this.translate.use(language);

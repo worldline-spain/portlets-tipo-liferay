@@ -8,7 +8,7 @@ import { HttpModule, Http } from '@angular/http';
 import { SharedModule, BrowserAnimationsModule, TranslateHttpLoader, TranslateModule, TranslateLoader } from '../services/shared.module';
 
 /* Prime NG dependencies */
-import { TreeTableModule,DropdownModule,ButtonModule,CardModule } from 'primeng-wl/primeng';
+import { DropdownModule, ButtonModule, CardModule, TreeTableModule } from 'primeng-wl/primeng';
 
 /* Main component */
 import { AppComponent } from './app.component';
@@ -25,8 +25,8 @@ function HttpLoaderFactory(http: Http) {
 		FormsModule,
 		HttpModule,
 		SharedModule.forRoot(),
-    BrowserAnimationsModule,
-    ButtonModule,
+		BrowserAnimationsModule,
+		ButtonModule,
 		TreeTableModule,
 		CardModule,
 		DropdownModule,

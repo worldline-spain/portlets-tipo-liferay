@@ -7,16 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define(["require", "exports", "@angular/core", "../../libs/libs", "@angular/forms"], function (require, exports, core_1, libs_1, forms_1) {
+define(["require", "exports", "@angular/core", "../services/shared.module", "@angular/forms"], function (require, exports, core_1, shared_module_1, forms_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var AppComponent = (function () {
-        function AppComponent(translate, fb) {
+        function AppComponent(translate, liferayService, fb) {
             this.translate = translate;
+            this.liferayService = liferayService;
             this.fb = fb;
             this.msgs = [];
-            //test 		
-            console.log(Liferay.ThemeDisplay.getLanguageId());
             this.initTranslate();
         }
         AppComponent.prototype.ngOnInit = function () {
@@ -40,26 +39,15 @@ define(["require", "exports", "@angular/core", "../../libs/libs", "@angular/form
             this.msgs.push({ severity: 'info', summary: 'Success', detail: 'Form Submitted' });
         };
         Object.defineProperty(AppComponent.prototype, "diagnostic", {
-            // resetForm(){
-            // 	console.log("reset form");
-            // }
             get: function () { return JSON.stringify(this.userform.value); },
             enumerable: true,
             configurable: true
         });
-        // changeLanguage(language: string) {
-        // 	this.translate.use(language);
-        //   }
         AppComponent.prototype.initTranslate = function () {
             // Set the default language for translation strings, and the current language.
-            //this.translate.setDefaultLang('es');
-            this.translate.setDefaultLang(Liferay.ThemeDisplay.getLanguageId());
-            if (Liferay.ThemeDisplay.getLanguageId() !== undefined) {
-                this.translate.use(Liferay.ThemeDisplay.getLanguageId());
-            }
-            else {
-                this.translate.use('es_ES'); // Set your language here
-            }
+            this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());
+            // Set your language here
+            this.translate.use(this.liferayService.getLanguageLiferay());
         };
         return AppComponent;
     }());
@@ -68,7 +56,8 @@ define(["require", "exports", "@angular/core", "../../libs/libs", "@angular/form
             selector: 'app',
             templateUrl: '/o/act-datos-compleja/js/app/app.html'
         }),
-        __metadata("design:paramtypes", [libs_1.TranslateService,
+        __metadata("design:paramtypes", [shared_module_1.TranslateService,
+            shared_module_1.LiferayService,
             forms_1.FormBuilder])
     ], AppComponent);
     exports.AppComponent = AppComponent;

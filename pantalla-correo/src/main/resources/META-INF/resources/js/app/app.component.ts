@@ -53,9 +53,6 @@ export class AppComponent {
         this.msgs.push({severity:'info', summary:'Success', detail:'Email sent.'});
     }
 
-	get diagnostic() { return JSON.stringify(this.userform.value); }
-
-
 	initTranslate() {
 		// Set the default language for translation strings, and the current language.
 		this.translate.setDefaultLang(this.liferayService.getLanguageLiferay());

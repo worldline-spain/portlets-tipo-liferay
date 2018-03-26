@@ -6,7 +6,7 @@
 
 <div class="ui-dropdown">
     <div class="ui-grid-col-2" style="height: 50px">
-        <p-dropdown [options]="languages" (onChange)="changeLanguage($event.value)" ></p-dropdown>
+        <p-dropdown [(ngModel)]="currentLanguage" [options]="languages" (onChange)="changeLanguage($event.value)" ></p-dropdown>
     </div>
 </div>
 
