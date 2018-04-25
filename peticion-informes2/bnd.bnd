@@ -1,0 +1,5 @@
+Bundle-Name: peticion-informes2
+Bundle-SymbolicName: peticion.informes2
+Bundle-Version: 1.0.0
+Export-Package: peticion.informes2.constants
+Web-ContextPath: /peticion-informes2
